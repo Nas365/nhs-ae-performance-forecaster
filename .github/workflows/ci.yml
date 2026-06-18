@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt flake8
+
+      - name: Lint
+        run: |
+          flake8 app.py src/ \
+            --max-line-length=100 \
+            --ignore=E203,W503 \
+            --exclude=__pycache__
+
+      - name: Smoke-test imports and feature builder
+        run: |
+          python - <<'EOF'
+          from src.data import find_csv_links, load_month, fetch_live_data
+          from src.features import build_forecast_features, FEATURE_COLS
+          import pandas as pd
+
+          # find_csv_links: basic extraction
+          html = '<a href="/some/path/MSitAE-MARCH-2026-123abc.csv">link</a>'
+          links = find_csv_links(html)
+          assert len(links) == 1 and links[0].endswith(".csv"), "find_csv_links failed"
+
+          # feature builder: minimal happy path
+          df = pd.DataFrame({
+              "month": pd.date_range("2025-06-01", periods=14, freq="MS"),
+              "within_4hrs": [0.60 + i * 0.002 for i in range(14)],
+          })
+          result = build_forecast_features(df)
+          assert result is not None, "build_forecast_features returned None"
+          assert all(k in result for k in FEATURE_COLS), "missing feature keys"
+          assert result["forecast_month"] == pd.Timestamp("2026-08-01"), (
+              f"unexpected forecast_month: {result['forecast_month']}"
+          )
+          print("All checks passed.")
+          EOF

@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Environment / secrets
+.env
+.env.*
+
+# Downloaded / scratch CSVs from the notebook pipeline
+sample_month.csv
+ae_panel.csv
+ingestion_log.csv
+MSitAE-*.csv
+
+# Root-level duplicates (canonical copies live in models/ and notebooks/)
+/ae_model.joblib
+/ae_project.py
+/ae_project (1).ipynb
+
+# Screenshots generated during development / testing
+assets/screenshot*.png
+
+# Claude Code workspace files
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
