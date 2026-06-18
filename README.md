@@ -1,5 +1,7 @@
 # NHS A&E Four-Hour Performance Forecaster
 
+**[🚀 Live app](https://nhs-ae-performance-forecaster-4juzktbjgz5iruicx7bcuh.streamlit.app/)**
+
 A lightweight web app that forecasts, one month ahead, how each major (Type 1) A&E department in England will perform against the NHS four-hour standard — the share of patients seen, admitted, transferred, or discharged within four hours of arrival.
 
 ---
@@ -49,6 +51,10 @@ streamlit run app.py
 ---
 
 ## Deploy to Streamlit Community Cloud
+
+The app is live at: **https://nhs-ae-performance-forecaster-4juzktbjgz5iruicx7bcuh.streamlit.app/**
+
+To deploy your own copy:
 
 1. Fork this repository.
 2. Go to [share.streamlit.io](https://share.streamlit.io), sign in with GitHub.
